@@ -162,7 +162,9 @@ def compute_LRA(xyz, weighting=False, nsample = 64):
     else:
         M = torch.matmul(group_xyz.transpose(3,2), group_xyz)
 
-    eigen_values, vec = M.symeig(eigenvectors=True)
+    # update for newer torch version
+    # eigen_values, vec = M.symeig(eigenvectors=True)
+    eigen_values, vec = torch.linalg.eigh(M)
 
     LRA = vec[:,:,:,0]
     LRA_length = torch.norm(LRA, dim=-1, keepdim=True)
