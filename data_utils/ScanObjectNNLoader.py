@@ -16,7 +16,9 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 sys.path.append(BASE_DIR)
 sys.path.append(ROOT_DIR)
 sys.path.append(os.path.join(ROOT_DIR, 'models'))
-from models.pointnet2 import pointnet2_utils 
+#! for adaption for automerge
+# from models.pointnet2 import pointnet2_utils
+from pointnet2_ops import pointnet2_utils
 from models.riconv2_utils import compute_LRA
 from models.riconv2_utils import index_points
 

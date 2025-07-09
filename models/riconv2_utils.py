@@ -11,7 +11,8 @@ import torch.nn.functional as F
 from time import time
 import numpy as np
 
-from pointnet2 import pointnet2_utils 
+# from pointnet2 import pointnet2_utils
+from pointnet2_ops import pointnet2_utils
 
 def timeit(tag, t):
     print("{}: {}s".format(tag, time() - t))
@@ -133,7 +134,9 @@ def compute_LRA_one(group_xyz, weighting=False):
     else:
         M = torch.matmul(group_xyz.transpose(3,2), group_xyz)
     
-    eigen_values, vec = M.symeig(eigenvectors=True)
+    # update for newer torch version
+    # eigen_values, vec = M.symeig(eigenvectors=True)
+    eigen_values, vec = torch.linalg.eigh(M)
     
     LRA = vec[:,:,:,0]
     LRA_length = torch.norm(LRA, dim=-1, keepdim=True)
@@ -159,7 +162,9 @@ def compute_LRA(xyz, weighting=False, nsample = 64):
     else:
         M = torch.matmul(group_xyz.transpose(3,2), group_xyz)
 
-    eigen_values, vec = M.symeig(eigenvectors=True)
+    # update for newer torch version
+    # eigen_values, vec = M.symeig(eigenvectors=True)
+    eigen_values, vec = torch.linalg.eigh(M)
 
     LRA = vec[:,:,:,0]
     LRA_length = torch.norm(LRA, dim=-1, keepdim=True)

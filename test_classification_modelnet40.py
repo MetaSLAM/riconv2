@@ -94,7 +94,8 @@ def main(args):
     num_class = args.num_category
     model = importlib.import_module('riconv2_cls')
 
-    classifier = model.get_model(num_class, 2)
+    # try use the model only with xyz
+    classifier = model.get_model(num_class, 2, normal_channel=False)
     classifier = classifier.cuda()
 
     checkpoint = torch.load(str(experiment_dir) + '/checkpoints/best_model.pth')
