@@ -12,7 +12,7 @@ class RiConv2(ViBackbone):
     
     def __init__(self, config):
         super().__init__(config)
-        self.model = get_model(config.num_class, config.n, config.normal_channel)
+        self.model = get_model(config.num_class, config.n, config.normal_channel, config.return_xyz)
     
     def infer(self, x, t=False):
         """
