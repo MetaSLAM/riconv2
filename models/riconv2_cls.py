@@ -11,7 +11,7 @@ import torch.nn.functional as F
 from riconv2_utils import RIConv2SetAbstraction, compute_LRA
 
 class get_model(nn.Module):
-    def __init__(self,num_class, n, normal_channel=True):
+    def __init__(self, num_class, n, normal_channel=True):
         super(get_model, self).__init__()
         in_channel = 64
         self.normal_channel = normal_channel
