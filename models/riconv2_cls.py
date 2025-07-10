@@ -11,7 +11,7 @@ import torch.nn.functional as F
 from riconv2_utils import RIConv2SetAbstraction, compute_LRA
 
 class get_model(nn.Module):
-    def __init__(self, num_class, n, normal_channel=True):
+    def __init__(self, num_class, n, normal_channel=True, return_xyz=False):
         super(get_model, self).__init__()
         in_channel = 64
         self.normal_channel = normal_channel
@@ -30,6 +30,7 @@ class get_model(nn.Module):
         self.bn2 = nn.BatchNorm1d(128)
         self.drop2 = nn.Dropout(0.4)
         self.fc3 = nn.Linear(128, num_class)
+        self.return_xyz = return_xyz
 
     def forward(self, xyz):
         B, _, _ = xyz.shape
@@ -53,8 +54,11 @@ class get_model(nn.Module):
         x = self.drop2(F.relu(self.bn2(self.fc2(x))))
         x = self.fc3(x)
         x = F.log_softmax(x, -1)
-
-        return x, l3_points
+        
+        if self.return_xyz == False:
+            return x, l3_points
+        else:
+            return x, l3_xyz, l3_points, l4_xyz, l4_points
 
 
 class get_loss(nn.Module):
