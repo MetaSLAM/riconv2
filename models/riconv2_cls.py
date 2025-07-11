@@ -8,7 +8,7 @@ Website: https://wwww.zhiyuanzhang.net
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from riconv2_utils import RIConv2SetAbstraction, compute_LRA
+from .riconv2_utils import RIConv2SetAbstraction, compute_LRA
 
 class get_model(nn.Module):
     def __init__(self, num_class, n, normal_channel=True, return_xyz=False):
@@ -58,7 +58,7 @@ class get_model(nn.Module):
         if self.return_xyz == False:
             return x, l3_points
         else:
-            return x, l3_xyz, l3_points, l4_xyz, l4_points
+            return x, l3_xyz, l3_points
 
 
 class get_loss(nn.Module):

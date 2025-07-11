@@ -235,7 +235,7 @@ def order_index(xyz, new_xyz, new_norm, idx):
     vec_ref = projected_xyz_unit.gather(2, length_max_idx.unsqueeze(-1).repeat(1,1,1,3)) # corresponds to the largest length
     
     dots = torch.matmul(projected_xyz_unit, vec_ref.view(B, S, C, 1))
-    sign = torch.cross(projected_xyz_unit, vec_ref.view(B, S, 1, C).repeat(1, 1, nsample, 1))
+    sign = torch.linalg.cross(projected_xyz_unit, vec_ref.view(B, S, 1, C).repeat(1, 1, nsample, 1))
     sign = torch.matmul(sign, new_norm)
     sign = torch.sign(sign)
     sign[:, :, 0, 0] = 1.  # the first is the center point itself, just set sign as 1 to differ from ref_vec 
